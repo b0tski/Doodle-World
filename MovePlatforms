@@ -1,0 +1,34 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MovePlatforms : MonoBehaviour
+{
+    [SerializeField] GameObject platform;
+    [SerializeField] float speed;
+    [SerializeField] float boundary;
+    [SerializeField] Vector3 startingPos;
+    [SerializeField] Vector3 currentPos;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        Vector3 startingPosX = platform.transform.position;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Vector3 currentPos = platform.transform.position;
+
+        if (currentPos.x <= startingPos.x) 
+        { 
+             currentPos = new Vector3(speed, 0, 0);
+        }
+
+        if (currentPos.x >= startingPos.x + boundary)
+        {
+            currentPos = new Vector3(-speed, 0, 0);
+        }
+    }
+}
