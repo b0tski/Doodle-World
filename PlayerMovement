@@ -1,0 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    [SerializeField] float moveSpeed = 8f;
+    [SerializeField] float jumpForce = 10f;
+    [SerializeField] float yGravityForce = -7f;
+
+    [SerializeField] Rigidbody rb;
+
+    [SerializeField] bool isGrounded = true;
+    // Start is called before the first frame update
+    void Start()
+    {
+        Physics.gravity = new Vector3(0, yGravityForce, 0);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Cracked"))
+        {
+            Destroy(other.gameObject);
+        }
+
+        isGrounded = true;
+    }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        // moves the player left and right 
+        float horizontalInput = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.right * moveSpeed * horizontalInput * Time.deltaTime);
+
+        //auto jumps 
+        if (isGrounded)
+        {
+            rb.AddForce(transform.up * jumpForce, ForceMode.Acceleration);
+            isGrounded = false;
+        }
+    }
+
+
+}
