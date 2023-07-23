@@ -4,31 +4,46 @@ using UnityEngine;
 
 public class MovePlatforms : MonoBehaviour
 {
-    [SerializeField] GameObject platform;
+
+
     [SerializeField] float speed;
+    [SerializeField] Vector2 startingPos;
+    [SerializeField] Vector2 endingPos;
     [SerializeField] float boundary;
-    [SerializeField] Vector3 startingPos;
-    [SerializeField] Vector3 currentPos;
+    private Vector2 direction = Vector2.right;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        Vector3 startingPosX = platform.transform.position;
+        startingPos = transform.position;
+        endingPos = startingPos + new Vector2(boundary, 0);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 currentPos = platform.transform.position;
 
-        if (currentPos.x <= startingPos.x) 
-        { 
-             currentPos = new Vector3(speed, 0, 0);
-        }
+        Vector2 currentPos = transform.position;
 
-        if (currentPos.x >= startingPos.x + boundary)
+        transform.Translate(direction * speed * Time.deltaTime, 0);
+
+
+        if (currentPos.x > endingPos.x)
         {
-            currentPos = new Vector3(-speed, 0, 0);
+            direction = Vector2.left;
         }
+
+        if (currentPos.x < startingPos.x)
+        {
+            direction = Vector2.right;
+        }
+
+        
+
+
+
     }
 }
